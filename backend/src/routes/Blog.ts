@@ -1,13 +1,16 @@
 import express, {Request , Response} from "express"
 import { PrismaClient } from "@prisma/client"
+import { blogschema } from "../zod"
 const prisma = new PrismaClient
-const blogRoute = express()
+const blogRoute = express.Router()
 blogRoute.use(express.json())
 
 
 
 blogRoute.post("/create" , async function (req,res ) {
     const body = await  req.body
+    const check = blogschema.safeParse(body)
+    if(!check.success){return res.status(401).json("invalid schema")}
     const userId = Number(req.id) 
 
     const create  = await prisma.todo.create({
@@ -30,15 +33,5 @@ blogRoute.get("/gettodo" , async (req,res) => {
     })
     res.json({todos : find})
 })
-
-// blogRoute.put("/updatetodo" , async (req,res)=> {
-// const body = await req.body
-// const userId = Number(req.id)
-
-// const update = await prisma.todo.update({
-
-// })
-// })
-
 
 export default blogRoute
