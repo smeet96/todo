@@ -9,21 +9,29 @@ blogRoute.use(express.json())
 
 blogRoute.post("/create" , async function (req,res ) {
     const body = await  req.body
+    const userId = Number(req.id)
     const check = blogschema.safeParse(body)
-    if(!check.success){return res.status(401).json("invalid schema")}
-    const userId = Number(req.id) 
-
+    if(!check.success){
+        return res.status(401).json("invalid schema")
+    }
+       
+ const {title , description } = check.data
     const create  = await prisma.todo.create({
         data : {
-            title : body.title,
-            description : body.description,
+            title ,
+            description ,
             done : false,
             authorid : userId
         }
     })
 
-    if(create){res.json("post created succesfully")}
+    if(create){ 
+        return res.json("todo created succesfully")
+    } else {
+        return res.json("error while creating todo")
+    }
 })
+
 
 blogRoute.get("/gettodo" , async (req,res) => {
     const userId = Number(req.id)
