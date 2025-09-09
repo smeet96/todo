@@ -16,13 +16,15 @@ userRouter.use(express.json());
 userRouter.post("/signup" , async function (req,res) {
     const body =  req.body
     const check = userschema.safeParse(body)
-    if(!check.success){ return res.status(401).json("invalid credentials")}
-
+    if(!check.success){
+         return res.status(401).json("invalid credentials")
+        }
+const {email , password , name } = check.data
     const User = await prisma.user.create({
         data : {
-            name : body.name,
-            password : body.password,
-            email : body.email,  
+            name,
+            password, 
+            email  
         }
     })
    if (!User) {
@@ -39,15 +41,15 @@ const signinschema = userschema.pick({
 })
 
 userRouter.post("/signin" , async function (req,res) {
-    const body = await req.body
-    const check = signinschema.safeParse(body)
-    if(!check.success){return res.status(401).json("invalid credentials")}
-  console.log(body)
-
-    const signin = await prisma.user.findUnique({
+    const body =  req.body
+    const check = signinschema.safeParse(body) 
+    if(!check.success){
+        return res.status(401).json("invalid credentials")
+    }
+   const {email , password} = check.data  
+   const signin = await prisma.user.findUnique({
         where : {
-            email : body.email,
-            password : body.password
+            email,
         }
     })
 if(!signin) {
@@ -57,6 +59,11 @@ if(!signin) {
         res.status(500).json({ error: "JWT secret is not defined" });
         return;
     }
+
+    if (password !== signin.password){
+        return res.status(401).json("incorrect password")
+    }
+
     const assign = jwt.sign({id : signin.id}, pass);
     res.json({token : assign});
 }
