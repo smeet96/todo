@@ -28,6 +28,7 @@ blogRoute.get("/gettodo" , async (req,res) => {
     const find = await prisma.todo.findMany({
         where : {authorid : userId}
     })
+    res.json({todos : find})
 })
 
 // blogRoute.put("/updatetodo" , async (req,res)=> {
