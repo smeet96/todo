@@ -2,18 +2,26 @@ import userRouter from "./routes/User";
 import blogRoute from "./routes/Blog";
 import express, { Request, Response, NextFunction } from "express";
 import jwt from "jsonwebtoken";
+import cors from "cors"
 import dotenv from "dotenv";
-
 dotenv.config();
 const app = express();
 const pass = process.env.JWT_PASSWORD!;
 
+const corsOptions = {
+origin: 'http://localhost:5173',
+credentials: true,
+optionSuccessStatus: 200
+};
+
+app.use(cors(corsOptions))
 
 declare module "express-serve-static-core" {
   interface Request {
     id?: string;
   }
 }
+
 
 
 app.use("/api/v1/blog/", (req: Request, res: Response, next: NextFunction) => {
