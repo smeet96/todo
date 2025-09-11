@@ -8,13 +8,6 @@ dotenv.config();
 const app = express();
 const pass = process.env.JWT_PASSWORD!;
 
-
-declare module "express-serve-static-core" {
-  interface Request {
-    id?: string;
-  }
-}
-
 const corsOptions = {
 origin: 'http://localhost:5173',
 credentials: true,
@@ -22,6 +15,14 @@ optionSuccessStatus: 200
 };
 
 app.use(cors(corsOptions))
+
+declare module "express-serve-static-core" {
+  interface Request {
+    id?: string;
+  }
+}
+
+
 
 app.use("/api/v1/blog/", (req: Request, res: Response, next: NextFunction) => {
   const auth = req.headers.authorization;
