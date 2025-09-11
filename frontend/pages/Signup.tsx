@@ -17,7 +17,7 @@ export const Signup = (): React.JSX.Element => {
                    <Input placeholder="......"  label="Passowrd" type="password"/>
                   <Button button="create an account" />
                   <p className="text-sm font-light text-gray-500 dark:text-gray-400">
-                      Already have an account? <a href="#" className="font-medium text-primary-600 hover:underline dark:text-primary-500">Login here</a>
+                      Already have an account? <a href="/signin" className="font-medium text-primary-600 hover:underline dark:text-primary-500">Login here</a>
                   </p>
               </form>
           </div>
