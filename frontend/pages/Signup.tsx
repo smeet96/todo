@@ -1,7 +1,7 @@
 import { Button } from "../components/Button";
 import { Input } from "../components/Input";
 
-export const DesktopXl = (): React.JSX.Element => {
+export const Signup = (): React.JSX.Element => {
  
   return (
     <section className="bg-white dark:bg-white">
@@ -27,4 +27,4 @@ export const DesktopXl = (): React.JSX.Element => {
   );
 };
 
-export default DesktopXl
+export default Signup
