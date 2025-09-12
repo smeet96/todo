@@ -8,14 +8,14 @@ blogRoute.use(express.json())
 
 
 blogRoute.post("/create" , async function (req,res ) {
-    const body = await  req.body
+    const body = await req.body
     const userId = Number(req.id)
-    const check = blogschema.safeParse(body)
-    if(!check.success){
-        return res.status(401).json("invalid schema")
-    }
-       
- const {title , description } = check.data
+    // const check = blogschema.safeParse(body)
+    // if(!check.success){
+    //     return res.status(401).json("invalid schema")
+    // }
+      const title = body.title 
+      const description = body.description
     const create  = await prisma.todo.create({
         data : {
             title ,
